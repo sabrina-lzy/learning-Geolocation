@@ -1,24 +1,51 @@
+HTML:
+
+<!doctype html>
+<html>
+<head>
+ <meta charset="utf-8">
+ <title>Where am I?</title>
+ <script src="myLoc.js"></script>
+ <link rel="stylesheet" href="myLoc.css">
+</head>
+<body>
+ <div id="location">
+ Your location will go here.
+ </div>
+ 
+ <div id="distance">
+ Distance from WickedlySmart HQ will go here.
+ </div>
+ 
+</body>
+</html>
+
+Javascript:
+
+window.onload = getMyLocation;
+
 var ourCoords = {
  latitude: 47.624851,
  longitude: -122.52099
 };
 
+function getMyLocation() {
+ if (navigator.geolocation) {
+ navigator.geolocation.getCurrentPosition(displayLocation, displayError);
+ } else {
+ alert("Oops, no geolocation support");
+ }
+}
+
 function displayLocation(position) {
  var latitude = position.coords.latitude;
  var longitude = position.coords.longitude;
- console.log("You are at Latitude: " + latitude + ", Longitude: " + longitude);
+ var div = document.getElementById("location");
+ div.innerHTML = "You are at Latitude: " + latitude + ", Longitude: " + longitude;
+ 
  var km = computeDistance(position.coords, ourCoords);
- console.log("You are " + km + " km from the WickedlySmart HQ");
-}
-
-getCurrentPosition(successHandler, errorHandler, options)
-
-function getMyLocation() { 
-  if (navigator.geolocation) { 
-  navigator.geolocation.getCurrentPosition(displayLocation, displayError); 
-  } else { 
-  alert("Oops, no geolocation support"); 
-  }
+ var distance = document.getElementById("distance");
+ distance.innerHTML = "You are " + km + " km from the WickedlySmart HQ";
 }
 
 function displayError(error) {
@@ -32,14 +59,11 @@ function displayError(error) {
  if (error.code == 0 || error.code == 2) {
  errorMessage = errorMessage + " " + error.message;
  }
- console.log(errorMessage);
+ var div = document.getElementById("location");
+ div.innerHTML = errorMessage;
 }
 
-getMyLocation()
-
-
 //To calculate distance between two points on a sphere
-
 function computeDistance(startCoords, destCoords) {
  var startLatRads = degreesToRadians(startCoords.latitude);
  var startLongRads = degreesToRadians(startCoords.longitude);
