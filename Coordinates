@@ -80,3 +80,11 @@ function degreesToRadians(degrees) {
  var radians = (degrees * Math.PI)/180;
  return radians;
 }
+
+var googleLatAndLong = new google.maps.LatLng(latitude, longitude);
+
+var mapOptions = {
+ zoom: 10, //The zoom option can be specified 0 to 21. Experiment with the zoom: bigger numbers correspond to being zoomed in more (so you see more detail). 10 is about “city” sized.
+ center: googleLatAndLong, //Here’s our new object we just created. We want the map to be centered on this location.
+ mapTypeId: google.maps.MapTypeId.ROADMAP
+};
